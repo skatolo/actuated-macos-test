@@ -1,0 +1,29 @@
+name: Runner test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  actuated-linux:
+    name: Actuated Linux
+    runs-on: actuated-2cpu-4gb
+    steps:
+      - name: Show runner details
+        run: |
+          echo "Runner OS: $RUNNER_OS"
+          echo "Runner architecture: $RUNNER_ARCH"
+          uname -a
+          cat /etc/os-release
+          nproc
+
+  macos:
+    name: macOS
+    runs-on: macos-latest
+    steps:
+      - name: Show runner details
+        run: |
+          echo "Runner OS: $RUNNER_OS"
+          echo "Runner architecture: $RUNNER_ARCH"
+          uname -a
+          sw_vers
+          sysctl -n hw.ncpu
