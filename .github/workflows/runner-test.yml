@@ -18,7 +18,7 @@ jobs:
 
   macos:
     name: Actuated macOS
-    runs-on: [actuated-arm64, macos]
+    runs-on: [actuated-arm64-2cpu-4gb, macos]
     steps:
       - name: Show runner details
         run: |
