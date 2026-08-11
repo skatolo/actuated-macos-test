@@ -17,8 +17,8 @@ jobs:
           nproc
 
   macos:
-    name: macOS
-    runs-on: macos-latest
+    name: Actuated macOS
+    runs-on: [actuated, macos, arm64]
     steps:
       - name: Show runner details
         run: |
