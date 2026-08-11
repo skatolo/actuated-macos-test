@@ -4,7 +4,7 @@ This repository contains a manually dispatched GitHub Actions workflow that
 runs on two Actuated runners:
 
 - Linux using `actuated-2cpu-4gb`
-- Apple Silicon macOS using `[actuated, macos, arm64]`
+- Apple Silicon macOS using `[actuated-arm64, macos]`
 
 Run the `Runner test` workflow from the Actions tab, or with:
 
