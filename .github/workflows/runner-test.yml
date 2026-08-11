@@ -6,7 +6,7 @@ on:
 jobs:
   actuated-linux:
     name: Actuated Linux
-    runs-on: actuated-2cpu-4gb
+    runs-on: actuated-arm64-2cpu-4gb
     steps:
       - name: Show runner details
         run: |
