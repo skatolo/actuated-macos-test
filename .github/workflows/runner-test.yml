@@ -27,3 +27,16 @@ jobs:
           uname -a
           sw_vers
           sysctl -n hw.ncpu
+
+      - name: Download a known payload
+        run: |
+          sleep 30
+          expected=64723756
+          actual=$(curl --fail --location --silent --show-error \
+            --output payload.tar.gz \
+            --write-out '%{size_download}' \
+            "https://go.dev/dl/go1.26.4.darwin-arm64.tar.gz")
+          test "$actual" -eq "$expected"
+          echo "Downloaded ${actual} bytes"
+          netstat -ibn
+          sleep 60
