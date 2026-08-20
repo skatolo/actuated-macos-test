@@ -27,3 +27,10 @@ jobs:
           uname -a
           sw_vers
           sysctl -n hw.ncpu
+
+      - name: Generate known disk activity
+        run: |
+          dd if=/dev/zero of=disk-test.bin bs=1m count=256
+          sync
+          dd if=disk-test.bin of=/dev/null bs=1m
+          sleep 10
