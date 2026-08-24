@@ -1,0 +1,42 @@
+name: Xcode iOS test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build iOS Hello World
+    runs-on: actuated-macos-arm64-2cpu-4gb
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Verify Xcode and iOS SDK
+        shell: bash
+        run: |
+          set -euxo pipefail
+          xcode-select -p
+          xcodebuild -version
+          xcodebuild -showsdks
+          xcrun --sdk iphoneos --show-sdk-path
+
+      - name: Build iOS Hello World
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          xcodebuild \
+            -project HelloIOS/HelloIOS.xcodeproj \
+            -target HelloIOS \
+            -configuration Debug \
+            -sdk iphoneos \
+            CONFIGURATION_BUILD_DIR="$RUNNER_TEMP/HelloIOSBuild" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+          APP="$RUNNER_TEMP/HelloIOSBuild/HelloIOS.app"
+          test -d "$APP"
+          test -x "$APP/HelloIOS"
+          /usr/bin/file "$APP/HelloIOS"
