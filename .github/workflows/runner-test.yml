@@ -20,6 +20,9 @@ jobs:
     name: Actuated macOS
     runs-on: actuated-macos-arm64-2cpu-4gb
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
       - name: Show runner details
         run: |
           echo "Runner OS: $RUNNER_OS"
@@ -27,3 +30,29 @@ jobs:
           uname -a
           sw_vers
           sysctl -n hw.ncpu
+
+      - name: Verify Xcode Command Line Tools
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          git --version
+          xcode-select -p
+          xcrun --find git
+          xcrun --find clang
+          xcrun clang --version
+          make --version | head -n 1
+
+          cat > "$RUNNER_TEMP/xcode-tools-smoke.c" <<'EOF'
+          #include <stdio.h>
+
+          int main(void) {
+              puts("Xcode Command Line Tools are working");
+              return 0;
+          }
+          EOF
+
+          xcrun clang -Wall -Wextra -Werror \
+            "$RUNNER_TEMP/xcode-tools-smoke.c" \
+            -o "$RUNNER_TEMP/xcode-tools-smoke"
+          "$RUNNER_TEMP/xcode-tools-smoke"
